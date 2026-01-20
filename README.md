@@ -11,7 +11,7 @@ Based on [Geoffrey Huntley's Ralph pattern](https://ghuntley.com/ralph/).
 ## Prerequisites
 
 - [OpenCode CLI](https://opencode.ai/) installed and authenticated
-- `jq` installed (`brew install jq` on macOS)
+- ~~`jq` installed (`brew install jq` on macOS)~~
 - A git repository for your project
 
 ## Setup
