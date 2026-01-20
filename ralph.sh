@@ -10,6 +10,7 @@ PRD_FILE="$SCRIPT_DIR/prd.json"
 PROGRESS_FILE="$SCRIPT_DIR/progress.txt"
 ARCHIVE_DIR="$SCRIPT_DIR/archive"
 LAST_BRANCH_FILE="$SCRIPT_DIR/.last-branch"
+PROMPT_FILE="$SCRIPT_DIR/prompt.md"
 
 # Archive previous run if branch changed
 if [ -f "$PRD_FILE" ] && [ -f "$LAST_BRANCH_FILE" ]; then
@@ -53,25 +54,34 @@ fi
 
 echo "Starting Ralph - Max iterations: $MAX_ITERATIONS"
 
-for i in $(seq 1 $MAX_ITERATIONS); do
-  echo ""
-  echo "═══════════════════════════════════════════════════════"
-  echo "  Ralph Iteration $i of $MAX_ITERATIONS"
-  echo "═══════════════════════════════════════════════════════"
-  
-  # Run amp with the ralph prompt
-  OUTPUT=$(cat "$SCRIPT_DIR/prompt.md" | amp --dangerously-allow-all 2>&1 | tee /dev/stderr) || true
-  
-  # Check for completion signal
-  if echo "$OUTPUT" | grep -q "<promise>COMPLETE</promise>"; then
+# Check if opencode is installed
+if ! command -v opencode &> /dev/null; then
+    echo "Error: opencode CLI is not installed or not in PATH."
+    exit 1
+fi
+
+# --- Main Loop ---
+for i in $(seq 1 "$MAX_ITERATIONS"); do
     echo ""
-    echo "Ralph completed all tasks!"
-    echo "Completed at iteration $i of $MAX_ITERATIONS"
-    exit 0
-  fi
-  
-  echo "Iteration $i complete. Continuing..."
-  sleep 2
+    echo "═══════════════════════════════════════════════════════"
+    echo "  Ralph Iteration $i of $MAX_ITERATIONS (OpenCode)"
+    echo "═══════════════════════════════════════════════════════"
+    
+    # OpenCode execution
+    # Note: If your prompt is in a markdown file, most OpenCode versions 
+    # prefer passing the path directly.
+    if ! OUTPUT=$(opencode run "$PROMPT_FILE" 2>&1 | tee /dev/stderr); then
+        echo "OpenCode encountered an error during iteration $i."
+        # Optional: exit 1 if you want it to stop on crash
+    fi
+    
+    # Check for completion signal (matches your existing logic)
+    if echo "$OUTPUT" | grep -q "<promise>COMPLETE</promise>"; then
+        echo -e "\n✅ Ralph/OpenCode completed all tasks!"
+        exit 0
+    fi
+    
+    sleep 2
 done
 
 echo ""
