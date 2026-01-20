@@ -11,7 +11,7 @@ Based on [Geoffrey Huntley's Ralph pattern](https://ghuntley.com/ralph/).
 ## Prerequisites
 
 - [OpenCode CLI](https://opencode.ai/) installed and authenticated
-- Optional for debugging step at end of readme `jq` installed (`brew install jq` on macOS)
+- Optional for debugging step at end of readme - `jq` installed (`brew install jq` on macOS)
 - A git repository for your project
 - The prompt.md depends on [playwright-mcp](https://github.com/microsoft/playwright-mcp), you can install this into your project or change to your choice of FE validation  
 
