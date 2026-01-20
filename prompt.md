@@ -21,7 +21,7 @@ APPEND to progress.txt (never replace, always append):
 
 ```
 ## [Date/Time] - [Story ID]
-Thread: https://ampcode.com/threads/$AMP_CURRENT_THREAD_ID
+Feature Name: [feature-name]
 - What was implemented
 - Files changed
 - **Learnings for future iterations:**
