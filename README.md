@@ -17,7 +17,7 @@ Based on [Geoffrey Huntley's Ralph pattern](https://ghuntley.com/ralph/).
 
 ## Setup
 
-### Option 1: Copy to your project
+### 1: Copy script to your project
 
 Copy the ralph files into your project root:
 
@@ -30,7 +30,7 @@ then
 chmod +x ralph.sh
 ```
 
-### Option 2: Install skills
+### 2: Install skills
 
 Copy the skills to your OpenCode config:
 
