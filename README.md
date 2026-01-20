@@ -65,7 +65,7 @@ This creates `prd.json` with user stories structured for autonomous execution.
 ### 3. Run Ralph
 
 ```bash
-./scripts/ralph/ralph.sh [max_iterations]
+./ralph.sh [max_iterations]
 ```
 
 Default is 10 iterations.
