@@ -31,8 +31,6 @@ Feature Name: [feature-name]
 ---
 ```
 
-Include the thread URL so future iterations can use the `read_thread` tool to reference previous work if needed.
-
 The learnings section is critical - it helps future iterations avoid repeating mistakes and understand the codebase better.
 
 ## Consolidate Patterns
