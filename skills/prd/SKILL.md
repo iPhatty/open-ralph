@@ -1,7 +1,6 @@
 ---
 name: prd
 description: "Generate a Product Requirements Document (PRD) for a new feature. Use when planning a feature, starting a new project, or when asked to create a PRD. Triggers on: create a prd, write prd for, plan this feature, requirements for, spec out."
-user-invocable: true
 ---
 
 # PRD Generator
@@ -30,29 +29,47 @@ Ask only critical questions where the initial prompt is ambiguous. Focus on:
 - **Scope/Boundaries:** What should it NOT do?
 - **Success Criteria:** How do we know it's done?
 
-### Format Questions Like This:
+### Use the AskUserQuestion Tool
 
+Use the built-in `AskUserQuestion` tool to ask 3-5 targeted questions. The tool provides:
+- Structured question/option format
+- Support for both single-select and multi-select questions
+- An "Other" option automatically for custom input
+- Clean presentation to the user
+
+**Example tool call:**
+```json
+{
+  "questions": [
+    {
+      "question": "What is the primary goal of this feature?",
+      "header": "Primary Goal",
+      "options": [
+        {"label": "Improve onboarding", "description": "Help new users get started faster"},
+        {"label": "Increase retention", "description": "Keep users engaged longer"},
+        {"label": "Reduce support burden", "description": "Minimize help requests"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "Who is the target user?",
+      "header": "Target User",
+      "options": [
+        {"label": "New users", "description": "Users who just signed up"},
+        {"label": "Existing users", "description": "Current active users"},
+        {"label": "All users", "description": "Entire user base"}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
 ```
-1. What is the primary goal of this feature?
-   A. Improve user onboarding experience
-   B. Increase user retention
-   C. Reduce support burden
-   D. Other: [please specify]
 
-2. Who is the target user?
-   A. New users only
-   B. Existing users only
-   C. All users
-   D. Admin users only
-
-3. What is the scope?
-   A. Minimal viable version
-   B. Full-featured implementation
-   C. Just the backend/API
-   D. Just the UI
-```
-
-This lets users respond with "1A, 2C, 3B" for quick iteration. Remember to indent the options.
+**Tips:**
+- Keep headers short (max 12 characters)
+- Provide 2-4 options per question
+- Use `multiSelect: true` when multiple options apply
+- The "Other" option is added automatically
 
 ---
 
@@ -83,12 +100,12 @@ Each story should be small enough to implement in one focused session.
 - [ ] Specific verifiable criterion
 - [ ] Another criterion
 - [ ] Typecheck/lint passes
-- [ ] **[UI stories only]** Verify in browser using dev-browser skill
+- [ ] **[UI stories only]** Verify in browser using playwright-cli
 ```
 
 **Important:** 
 - Acceptance criteria must be verifiable, not vague. "Works correctly" is bad. "Button shows confirmation dialog before deleting" is good.
-- **For any story with UI changes:** Always include "Verify in browser using dev-browser skill" as acceptance criteria. This ensures visual verification of frontend work.
+- **For any story with UI changes:** Always include "Verify in browser using playwright-cli" as acceptance criteria. This ensures visual verification of frontend work.
 
 ### 4. Functional Requirements
 Numbered list of specific functionalities:
@@ -173,7 +190,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Each task card shows colored priority badge (red=high, yellow=medium, gray=low)
 - [ ] Priority visible without hovering or clicking
 - [ ] Typecheck passes
-- [ ] Verify in browser using dev-browser skill
+- [ ] Verify in browser using playwright-cli
 
 ### US-003: Add priority selector to task edit
 **Description:** As a user, I want to change a task's priority when editing it.
@@ -183,7 +200,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Shows current priority as selected
 - [ ] Saves immediately on selection change
 - [ ] Typecheck passes
-- [ ] Verify in browser using dev-browser skill
+- [ ] Verify in browser using playwright-cli
 
 ### US-004: Filter tasks by priority
 **Description:** As a user, I want to filter the task list to see only high-priority items when I'm focused.
@@ -193,7 +210,7 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 - [ ] Filter persists in URL params
 - [ ] Empty state message when no tasks match filter
 - [ ] Typecheck passes
-- [ ] Verify in browser using dev-browser skill
+- [ ] Verify in browser using playwright-cli
 
 ## Functional Requirements
 
@@ -233,8 +250,8 @@ Add priority levels to tasks so users can focus on what matters most. Tasks can 
 
 Before saving the PRD:
 
-- [ ] Asked clarifying questions with lettered options
-- [ ] Incorporated user's answers
+- [ ] Asked clarifying questions using AskUserQuestion tool
+- [ ] Incorporated user's answers from the tool response
 - [ ] User stories are small and specific
 - [ ] Functional requirements are numbered and unambiguous
 - [ ] Non-goals section defines clear boundaries
